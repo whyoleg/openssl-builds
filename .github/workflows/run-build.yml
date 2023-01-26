@@ -4,66 +4,59 @@ on: [ workflow_call, workflow_dispatch ]
 jobs:
 
   linux:
-    name: Build Linux targets
+    name: Build targets on linux
     runs-on: linux-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        profile: [
-          linuxArm64, linuxX64
-        ]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - run: pip install conan
-      - run: conan install packages/openssl3 --install-folder packages/openssl3/build/${{ matrix.profile }} --build=missing --profile profiles/${{ matrix.profile }}
+
+      - run: conan install packages/openssl3 --install-folder build/openssl3/linuxX64 --build=missing --profile profiles/linuxX64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/linuxArm64 --build=missing --profile profiles/linuxArm64
+
       - uses: actions/upload-artifact@v3
         with:
-          name: openssl3-${{ matrix.profile }}
-          path: packages/openssl3/build/${{ matrix.profile }}/lib/*.a
+          name: openssl3-linux
+          path: build/openssl3/*/lib/*.*
 
   mingw:
-    name: Build Mingw targets
-    runs-on: linux-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        profile: [
-          mingwArm64, mingwX64
-        ]
+    name: Build targets on windows
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - run: pip install conan
-      - run: conan install packages/openssl3 --install-folder packages/openssl3/build/${{ matrix.profile }} --build=missing --profile profiles/${{ matrix.profile }}
+
+      - run: conan install packages/openssl3 --install-folder build/openssl3/mingwX64 --build=missing --profile profiles/mingwX64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/mingwArm64 --build=missing --profile profiles/mingwArm64
+
       - uses: actions/upload-artifact@v3
         with:
-          name: openssl3-${{ matrix.profile }}
-          path: packages/openssl3/build/${{ matrix.profile }}/lib/*.a
+          name: openssl3-windows
+          path: build/openssl3/*/lib/*.*
 
   macos:
-    name: Build Apple targets
+    name: Build targets on macos
     runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        profile: [
-          macosArm64, macosX64,
-          iosArm64, iosArm32,
-          iosSimulatorArm64, iosSimulatorX64
-        ]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - run: pip install conan
-      - run: conan install packages/openssl3 --install-folder packages/openssl3/build/${{ matrix.profile }} --build=missing --profile profiles/${{ matrix.profile }}
+
+      - run: conan install packages/openssl3 --install-folder build/openssl3/macosArm64 --build=missing --profile profiles/macosArm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/macosX64 --build=missing --profile profiles/macosX64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/iosArm64 --build=missing --profile profiles/iosArm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/iosArm32 --build=missing --profile profiles/iosArm32
+      - run: conan install packages/openssl3 --install-folder build/openssl3/iosSimulatorArm64 --build=missing --profile profiles/iosSimulatorArm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/iosSimulatorX64 --build=missing --profile profiles/iosSimulatorX64
+
       - uses: actions/upload-artifact@v3
         with:
-          name: openssl3-${{ matrix.profile }}
-          path: packages/openssl3/build/${{ matrix.profile }}/lib/*.a
+          name: openssl3-macos
+          path: build/openssl3/*/lib/*.*
