@@ -3,4 +3,4 @@ include(default)
 os=Windows
 arch=x86_64
 compiler=gcc
-#compiler.version=11
+compiler.version=11
