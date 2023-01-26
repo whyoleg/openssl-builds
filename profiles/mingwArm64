@@ -1,4 +1,0 @@
-include(default)
-[settings]
-os=Windows
-arch=armv8

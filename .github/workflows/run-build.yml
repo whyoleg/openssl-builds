@@ -21,7 +21,7 @@ jobs:
           name: openssl3-linux
           path: build/openssl3/*/lib/*.*
 
-  mingw:
+  windows:
     name: Build targets on windows
     runs-on: windows-latest
     steps:
@@ -32,7 +32,6 @@ jobs:
       - run: pip install conan
 
       - run: conan install packages/openssl3 --install-folder build/openssl3/mingwX64 --build=missing --profile profiles/mingwX64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/mingwArm64 --build=missing --profile profiles/mingwArm64
 
       - uses: actions/upload-artifact@v3
         with:
@@ -40,6 +39,7 @@ jobs:
           path: build/openssl3/*/lib/*.*
 
   macos:
+    if: false
     name: Build targets on macos
     runs-on: macos-latest
     steps:
