@@ -3,7 +3,7 @@ on: [ workflow_call, workflow_dispatch ]
 
 jobs:
   macos:
-    name: Build darwin targets
+    name: Build Apple targets
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -12,6 +12,27 @@ jobs:
           macosArm64, macosX64,
           iosArm64, iosArm32,
           iosSimulatorArm64, iosSimulatorX64
+        ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install conan
+      - run: conan install packages/openssl3 --install-folder packages/openssl3/build/${{ matrix.profile }} --build=missing --profile profiles/${{ matrix.profile }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: openssl3-${{ matrix.profile }}
+          path: packages/openssl3/build/${{ matrix.profile }}/lib/*.a
+
+  linux:
+    name: Build Linux targets
+    runs-on: linux-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [
+          linuxArm64, linuxX64,
         ]
     steps:
       - uses: actions/checkout@v3
