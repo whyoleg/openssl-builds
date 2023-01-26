@@ -1,0 +1,6 @@
+name: Build
+on: push
+
+jobs:
+  test:
+    uses: ./.github/workflows/run-build.yml
