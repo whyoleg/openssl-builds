@@ -1,6 +1,15 @@
-include(default)
+[tool_requires]
+mingw-w64/8.1
+msys2/cci.latest
+
 [settings]
+os_build=Windows
 os=Windows
 arch=x86_64
+arch_build=x86_64
 compiler=gcc
 compiler.version=11
+#compiler.exception=seh
+#compiler.libcxx=libstdc++11
+#compiler.threads=posix
+#build_type=Release
