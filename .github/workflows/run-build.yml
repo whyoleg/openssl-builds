@@ -8,8 +8,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [ macos-x64, macos-arm64, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
         os: [ macos-latest ]
+        target: [ macos-x64, macos-arm64, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
         include:
           - os: ubuntu-latest
             target: linux-x64
@@ -27,7 +27,17 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: openssl3
+          name: openssl3-all
+          if-no-files-found: error
           path: |
             build/openssl3/*/lib/*
             build/openssl3/*/include/openssl/*
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: openssl3-${{ matrix.target }}
+          if-no-files-found: error
+          path: |
+            build/openssl3/${{ matrix.target }}/lib/*
+            build/openssl3/${{ matrix.target }}/include/openssl/*
