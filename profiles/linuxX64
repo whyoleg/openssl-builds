@@ -1,4 +1,7 @@
 include(default)
 [settings]
-arch=x86_64
 os=Linux
+arch=x86_64
+compiler=gcc
+compiler.version=11
+compiler.libcxx=libstdc++11

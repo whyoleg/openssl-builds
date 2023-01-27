@@ -22,6 +22,7 @@ jobs:
           path: build/openssl3/*/lib/*.*
 
   windows:
+    if: false
     name: Build targets on windows
     runs-on: windows-latest
     steps:

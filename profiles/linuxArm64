@@ -1,4 +1,7 @@
 include(default)
 [settings]
-arch=armv8
 os=Linux
+arch=armv8
+compiler=gcc
+compiler.version=11
+compiler.libcxx=libstdc++11
