@@ -1,0 +1,4 @@
+include(default)
+[settings]
+os=watchOS
+os.version=7.0

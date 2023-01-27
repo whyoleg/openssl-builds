@@ -16,6 +16,7 @@ jobs:
       - run: conan install packages/openssl3 --install-folder build/openssl3/linux-x64 --build=missing --profile profiles/linux-x64
 
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: openssl3
           path: build/openssl3/*/lib/*.*
@@ -33,6 +34,7 @@ jobs:
       - run: conan install packages/openssl3 --install-folder build/openssl3/mingw-x64 --build=missing --profile profiles/mingw-x64
 
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: openssl3
           path: build/openssl3/*/lib/*.*
@@ -47,15 +49,25 @@ jobs:
           python-version: '3.11'
       - run: pip install conan
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/macos-arm64 --build=missing --profile profiles/macos-arm64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/macos-x64 --build=missing --profile profiles/macos-x64
+#      - run: conan install packages/openssl3 --install-folder build/openssl3/macos-arm64 --build=missing --profile profiles/macos-arm64
+#      - run: conan install packages/openssl3 --install-folder build/openssl3/macos-x64 --build=missing --profile profiles/macos-x64
+#
+#      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-device-arm64 --build=missing --profile profiles/ios-device-arm64
+#      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-simulator-arm64 --build=missing --profile profiles/ios-simulator-arm64
+#      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-simulator-x64 --build=missing --profile profiles/ios-simulator-x64
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-device-arm64 --build=missing --profile profiles/ios-device-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/tvos-device-arm64 --build=missing --profile profiles/tvos-device-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/tvos-simulator-arm64 --build=missing --profile profiles/tvos-simulator-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/tvos-simulator-x64 --build=missing --profile profiles/tvos-simulator-x64
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-simulator-arm64 --build=missing --profile profiles/ios-simulator-arm64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-simulator-x64 --build=missing --profile profiles/ios-simulator-x64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/watchos-device-arm32 --build=missing --profile profiles/watchos-device-arm32
+      - run: conan install packages/openssl3 --install-folder build/openssl3/watchos-device-arm64 --build=missing --profile profiles/watchos-device-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/watchos-device-arm64_32 --build=missing --profile profiles/watchos-device-arm64_32
+      - run: conan install packages/openssl3 --install-folder build/openssl3/watchos-simulator-arm64 --build=missing --profile profiles/watchos-simulator-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/watchos-simulator-x64 --build=missing --profile profiles/watchos-simulator-x64
 
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: openssl3
           path: build/openssl3/*/lib/*.*
