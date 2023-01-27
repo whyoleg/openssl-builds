@@ -8,4 +8,4 @@ class Openssl3Conan(ConanFile):
     def imports(self):
         self.copy("libssl.a", dst="lib", src="lib")
         self.copy("libcrypto.a", dst="lib", src="lib")
-        self.copy("*", dst="include", src="include")
+        self.copy("openssl/*", dst="include", src="include")
