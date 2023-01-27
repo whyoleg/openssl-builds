@@ -13,16 +13,14 @@ jobs:
           python-version: '3.11'
       - run: pip install conan
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/linuxX64 --build=missing --profile profiles/linuxX64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/linuxArm64 --build=missing --profile profiles/linuxArm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/linux-x64 --build=missing --profile profiles/linux-x64
 
       - uses: actions/upload-artifact@v3
         with:
-          name: openssl3-linux
+          name: openssl3
           path: build/openssl3/*/lib/*.*
 
   windows:
-    if: false
     name: Build targets on windows
     runs-on: windows-latest
     steps:
@@ -32,15 +30,14 @@ jobs:
           python-version: '3.11'
       - run: pip install conan
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/mingwX64 --build=missing --profile profiles/mingwX64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/mingw-x64 --build=missing --profile profiles/mingw-x64
 
       - uses: actions/upload-artifact@v3
         with:
-          name: openssl3-windows
+          name: openssl3
           path: build/openssl3/*/lib/*.*
 
   macos:
-    if: false
     name: Build targets on macos
     runs-on: macos-latest
     steps:
@@ -50,14 +47,15 @@ jobs:
           python-version: '3.11'
       - run: pip install conan
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/macosArm64 --build=missing --profile profiles/macosArm64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/macosX64 --build=missing --profile profiles/macosX64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/iosArm64 --build=missing --profile profiles/iosArm64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/iosArm32 --build=missing --profile profiles/iosArm32
-      - run: conan install packages/openssl3 --install-folder build/openssl3/iosSimulatorArm64 --build=missing --profile profiles/iosSimulatorArm64
-      - run: conan install packages/openssl3 --install-folder build/openssl3/iosSimulatorX64 --build=missing --profile profiles/iosSimulatorX64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/macos-arm64 --build=missing --profile profiles/macos-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/macos-x64 --build=missing --profile profiles/macos-x64
+
+      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-device-arm64 --build=missing --profile profiles/ios-device-arm64
+
+      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-simulator-arm64 --build=missing --profile profiles/ios-simulator-arm64
+      - run: conan install packages/openssl3 --install-folder build/openssl3/ios-simulator-x64 --build=missing --profile profiles/ios-simulator-x64
 
       - uses: actions/upload-artifact@v3
         with:
-          name: openssl3-macos
+          name: openssl3
           path: build/openssl3/*/lib/*.*

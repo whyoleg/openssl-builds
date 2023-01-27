@@ -1,7 +1,0 @@
-include(default)
-[settings]
-os=Linux
-arch=armv8
-compiler=clang
-compiler.version=14
-compiler.libcxx=libstdc++11
