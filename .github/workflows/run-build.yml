@@ -19,7 +19,9 @@ jobs:
         if: always()
         with:
           name: openssl3
-          path: build/openssl3/*/lib/*.*
+          path: |
+            build/openssl3/*/lib/*
+            build/openssl3/*/include/**/*
 
   windows:
     name: Build targets on windows
@@ -37,7 +39,9 @@ jobs:
         if: always()
         with:
           name: openssl3
-          path: build/openssl3/*/lib/*.*
+          path: |
+            build/openssl3/*/lib/*
+            build/openssl3/*/include/**/*
 
   macos:
     name: Build targets on macos
@@ -71,4 +75,6 @@ jobs:
         if: always()
         with:
           name: openssl3
-          path: build/openssl3/*/lib/*.*
+          path: |
+            build/openssl3/*/lib/*
+            build/openssl3/*/include/**/*
