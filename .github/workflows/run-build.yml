@@ -8,11 +8,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest ]
-        target: [ macos-x64, macos-arm64, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
+#        os: [ macos-latest ]
+#        target: [ macos-x64, macos-arm64, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
         include:
-          - os: ubuntu-20.04
-            target: linux-x64
+#          - os: ubuntu-20.04
+#            target: linux-x64
           - os: windows-latest
             target: mingw-x64
     steps:

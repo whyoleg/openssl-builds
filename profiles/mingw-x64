@@ -3,11 +3,11 @@ include(default)
 os=Windows
 arch=x86_64
 compiler=gcc
-compiler.version=11
+compiler.version=9
 compiler.libcxx=libstdc++11
 #compiler.exception=seh
 #compiler.threads=posix
 
 [tool_requires]
-mingw-w64/8.1
-msys2/cci.latest
+#mingw-w64/8.1
+#msys2/cci.latest
