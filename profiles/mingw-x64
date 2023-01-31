@@ -4,9 +4,8 @@ os=Windows
 arch=x86_64
 compiler=gcc
 compiler.version=8
-#compiler.exception=seh
-#compiler.threads=posix
+compiler.exception=seh
+compiler.threads=posix
 
 [tool_requires]
 mingw-builds/8.1
-#msys2/cci.latest
