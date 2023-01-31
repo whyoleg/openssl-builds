@@ -6,6 +6,6 @@ class Openssl3Conan(ConanFile):
         self.requires("openssl/3.0.7")
 
     def imports(self):
-        self.copy("libssl.a", dst="lib", src="lib")
-        self.copy("libcrypto.a", dst="lib", src="lib")
-        self.copy("openssl/*", dst="include", src="include")
+        self.copy("*", dst="lib", src="lib")
+        # self.copy("libcrypto.a", dst="lib", src="lib")
+        # self.copy("openssl/*", dst="include", src="include")

@@ -22,7 +22,8 @@ jobs:
           python-version: '3.11'
       - run: pip install conan
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/${{ matrix.target }} --build=missing --profile profiles/${{ matrix.target }}
+      - run: conan install packages/openssl3 --install-folder build/openssl3/${{ matrix.target }} --build=missing --profile profiles/${{ matrix.target }} -o openssl:shared=False
+      - run: conan install packages/openssl3 --install-folder build/openssl3/${{ matrix.target }} --build=missing --profile profiles/${{ matrix.target }} -o openssl:shared=True
 
       - uses: actions/upload-artifact@v3
         if: always()
