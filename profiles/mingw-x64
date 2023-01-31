@@ -8,5 +8,5 @@ compiler.version=8
 #compiler.threads=posix
 
 [tool_requires]
-mingw-w64/8.1
+mingw-builds/8.1
 #msys2/cci.latest
