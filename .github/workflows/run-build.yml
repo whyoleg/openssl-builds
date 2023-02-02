@@ -31,14 +31,16 @@ jobs:
           name: openssl3-all
           if-no-files-found: error
           path: |
-            build/openssl3/*/lib/*
+            build/openssl3/*/lib/dynamic/*
+            build/openssl3/*/lib/static/*
             build/openssl3/*/include/openssl/*
 
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: openssl3-${{ matrix.target }}
-          if-no-files-found: error
-          path: |
-            build/openssl3/${{ matrix.target }}/lib/*
-            build/openssl3/${{ matrix.target }}/include/openssl/*
+#      - uses: actions/upload-artifact@v3
+#        if: always()
+#        with:
+#          name: openssl3-${{ matrix.target }}
+#          if-no-files-found: error
+#          path: |
+#            build/openssl3/${{ matrix.target }}/lib/dynamic/*
+#            build/openssl3/${{ matrix.target }}/lib/static/*
+#            build/openssl3/${{ matrix.target }}/include/openssl/*
