@@ -14,4 +14,12 @@ class Openssl3Conan(ConanFile):
 
         self.copy("libcrypto.a", dst="lib/static", src="lib")
 
+        self.copy("libssl.dll.a", dst="lib/dynamic", src="lib")
+        self.copy("libssl.3.dylib", dst="lib/dynamic", src="lib")
+        self.copy("libssl.dylib", dst="lib/dynamic", src="lib")
+        self.copy("libssl.so.3", dst="lib/dynamic", src="lib")
+        self.copy("libssl.so", dst="lib/dynamic", src="lib")
+
+        self.copy("libssl.a", dst="lib/static", src="lib")
+
         self.copy("openssl/*", dst="include", src="include")
