@@ -26,8 +26,7 @@ jobs:
           name: openssl3-all
           if-no-files-found: error
           path: |
-            build/openssl3/*/lib/*
-            build/openssl3/*/include/openssl/*
+            build/openssl3/**/*
 
 #      - uses: actions/upload-artifact@v3
 #        if: always()
