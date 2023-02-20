@@ -3,7 +3,7 @@ from conans import ConanFile
 
 class Openssl3Conan(ConanFile):
     def requirements(self):
-        self.requires("openssl/3.0.7")
+        self.requires("openssl/3.0.8")
 
     def imports(self):
         self.copy("libcrypto.dll.a", dst="lib/dynamic", src="lib")
