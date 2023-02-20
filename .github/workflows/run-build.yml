@@ -21,6 +21,8 @@ jobs:
             target: android-x64
           - os: windows-latest
             target: mingw-x64
+          - os: windows-latest
+            target: windows-x64
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -38,14 +40,13 @@ jobs:
           if-no-files-found: error
           path: |
             build/openssl3/*/lib/*
-            build/openssl3/*/include/openssl/*
+            build/openssl3/*/include/*
 
-#      - uses: actions/upload-artifact@v3
-#        if: always()
-#        with:
-#          name: openssl3-${{ matrix.target }}
-#          if-no-files-found: error
-#          path: |
-#            build/openssl3/${{ matrix.target }}/lib/dynamic/*
-#            build/openssl3/${{ matrix.target }}/lib/static/*
-#            build/openssl3/${{ matrix.target }}/include/openssl/*
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: openssl3-${{ matrix.target }}
+          if-no-files-found: error
+          path: |
+            build/openssl3/${{ matrix.target }}/lib/*
+            build/openssl3/${{ matrix.target }}/include/*
