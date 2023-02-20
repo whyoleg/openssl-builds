@@ -8,8 +8,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-latest ]
-        target: [ windows-x64 ]
+        os: [ macos-latest ]
+        target: [ macos-x64, macos-arm64, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
+        include:
+          - os: ubuntu-20.04
+            target: linux-x64
+          - os: ubuntu-20.04
+            target: wasm
+          - os: ubuntu-20.04
+            target: android-arm64
+          - os: ubuntu-20.04
+            target: android-x64
+          - os: windows-latest
+            target: mingw-x64
+          - os: windows-latest
+            target: windows-x64
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -26,14 +39,12 @@ jobs:
           name: openssl3-all
           if-no-files-found: error
           path: |
-            build/openssl3/**/*
+            build/openssl3/*/data/*
 
-#      - uses: actions/upload-artifact@v3
-#        if: always()
-#        with:
-#          name: openssl3-${{ matrix.target }}
-#          if-no-files-found: error
-#          path: |
-#            build/openssl3/${{ matrix.target }}/lib/dynamic/*
-#            build/openssl3/${{ matrix.target }}/lib/static/*
-#            build/openssl3/${{ matrix.target }}/include/openssl/*
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: openssl3-${{ matrix.target }}
+          if-no-files-found: error
+          path: |
+            build/openssl3/${{ matrix.target }}/data/*
