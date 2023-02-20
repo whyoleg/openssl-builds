@@ -2,3 +2,5 @@ include(default)
 [settings]
 os=Windows
 arch=x86_64
+compiler=clang
+compiler.version=15
