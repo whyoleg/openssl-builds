@@ -1,9 +1,10 @@
-include(default)
+
 [settings]
 os=Windows
 arch=x86_64
 compiler=gcc
 compiler.version=8
+compiler.libcxx=libstdc++
 compiler.exception=seh
 compiler.threads=posix
 
