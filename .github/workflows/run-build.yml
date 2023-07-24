@@ -27,12 +27,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-      # TODO: migrate to conan 2.0
-      - run: pip install conan==1.59
+          python-version: 3.x
+      - run: pip install conan
 
-      - run: conan install packages/openssl3 --install-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o openssl:shared=True
-      - run: conan install packages/openssl3 --install-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o openssl:shared=False
+      - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=True"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=False"
 
       - uses: actions/upload-artifact@v3
         if: always()

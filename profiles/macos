@@ -2,4 +2,3 @@ include(default)
 [settings]
 os=Macos
 os.version=11.0
-os.sdk=macosx
