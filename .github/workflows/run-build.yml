@@ -29,6 +29,7 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install conan
+      - run: conan profile detect
 
       - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=True"
       - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=False"
