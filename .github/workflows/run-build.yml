@@ -2,27 +2,59 @@ name: Run build
 on: [ workflow_call, workflow_dispatch ]
 
 jobs:
-  openssl3:
-    name: Build openssl3
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ macos-latest ]
-        target: [ macos-x64, macos-arm64, ios-device-arm32, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
-        include:
-          - os: ubuntu-20.04
-            target: linux-x64
-          - os: ubuntu-20.04
-            target: wasm
-          - os: ubuntu-20.04
-            target: android-arm64
-          - os: ubuntu-20.04
-            target: android-x64
-          - os: windows-latest
-            target: mingw-x64
-          - os: windows-latest
-            target: windows-x64
+  #  openssl3:
+  #    name: Build openssl3
+  #    runs-on: ${{ matrix.os }}
+  #    strategy:
+  #      fail-fast: false
+  #      matrix:
+  #        os: [ macos-latest ]
+  #        target: [ macos-x64, macos-arm64, ios-device-arm32, ios-device-arm64, ios-simulator-arm64, ios-simulator-x64 ]
+  #        include:
+  #          - os: ubuntu-20.04
+  #            target: linux-x64
+  #          - os: ubuntu-20.04
+  #            target: wasm
+  #          - os: ubuntu-20.04
+  #            target: android-arm64
+  #          - os: ubuntu-20.04
+  #            target: android-x64
+  #          - os: windows-latest
+  #            target: mingw-x64
+  #          - os: windows-latest
+  #            target: windows-x64
+  #    steps:
+  #      - uses: actions/checkout@v3
+  #      - uses: actions/setup-python@v4
+  #        with:
+  #          python-version: 3.x
+  #      - run: pip install conan
+  #      - run: conan profile detect
+  #
+  #      - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=True"
+  #      - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=False"
+  #
+  #      - uses: actions/upload-artifact@v3
+  #        if: always()
+  #        with:
+  #          name: openssl3-all
+  #          if-no-files-found: error
+  #          path: |
+  #            build/openssl3/*/lib/*
+  #            build/openssl3/*/include/*
+  #
+  #      - uses: actions/upload-artifact@v3
+  #        if: always()
+  #        with:
+  #          name: openssl3-${{ matrix.target }}
+  #          if-no-files-found: error
+  #          path: |
+  #            build/openssl3/${{ matrix.target }}/lib/*
+  #            build/openssl3/${{ matrix.target }}/include/*
+
+  openssl3-macos:
+    name: Build openssl3 on macos
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -31,23 +63,40 @@ jobs:
       - run: pip install conan
       - run: conan profile detect
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/${{ matrix.target }} --build=missing -pr:b default -pr:h profiles/${{ matrix.target }} -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-x64/shared --build=missing -pr:b default -pr:h profiles/macos-x64 -o "openssl/*:shared=True"
+        continue-on-error: true
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-x64/static --build=missing -pr:b default -pr:h profiles/macos-x64 -o "openssl/*:shared=False"
+        continue-on-error: true
+
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-arm64/shared --build=missing -pr:b default -pr:h profiles/macos-arm64 -o "openssl/*:shared=True"
+        continue-on-error: true
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-arm64/static --build=missing -pr:b default -pr:h profiles/macos-arm64 -o "openssl/*:shared=False"
+        continue-on-error: true
+
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm32/shared --build=missing -pr:b default -pr:h profiles/ios-device-arm32 -o "openssl/*:shared=True"
+        continue-on-error: true
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm32/static --build=missing -pr:b default -pr:h profiles/ios-device-arm32 -o "openssl/*:shared=False"
+        continue-on-error: true
+
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm64/shared --build=missing -pr:b default -pr:h profiles/ios-device-arm64 -o "openssl/*:shared=True"
+        continue-on-error: true
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm64/static --build=missing -pr:b default -pr:h profiles/ios-device-arm64 -o "openssl/*:shared=False"
+        continue-on-error: true
+
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-arm64/shared --build=missing -pr:b default -pr:h profiles/ios-simulator-arm64 -o "openssl/*:shared=True"
+        continue-on-error: true
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-arm64/static --build=missing -pr:b default -pr:h profiles/ios-simulator-arm64 -o "openssl/*:shared=False"
+        continue-on-error: true
+
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-x64/shared --build=missing -pr:b default -pr:h profiles/ios-simulator-x64 -o "openssl/*:shared=True"
+        continue-on-error: true
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-x64/static --build=missing -pr:b default -pr:h profiles/ios-simulator-x64 -o "openssl/*:shared=False"
+        continue-on-error: true
 
       - uses: actions/upload-artifact@v3
-        if: always()
         with:
           name: openssl3-all
           if-no-files-found: error
           path: |
-            build/openssl3/*/lib/*
-            build/openssl3/*/include/*
-
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: openssl3-${{ matrix.target }}
-          if-no-files-found: error
-          path: |
-            build/openssl3/${{ matrix.target }}/lib/*
-            build/openssl3/${{ matrix.target }}/include/*
+            build/openssl3/**/lib/*
+            build/openssl3/**/include/*
