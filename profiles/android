@@ -1,4 +1,4 @@
-include(default)
+include(base)
 [settings]
 os=Android
 os.api_level=21
