@@ -13,17 +13,17 @@ jobs:
       - run: pip install conan
       - run: conan profile detect
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-x64 --build=missing -pr:b default -pr:h profiles/macos-x64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-x64 --build=missing -pr:b default -pr:h profiles/macos-x64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-x64 --build=missing -pr:b default -pr:h profiles/macos-x64 -o "*:shared=True"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-x64 --build=missing -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-arm64 --build=missing -pr:b default -pr:h profiles/macos-arm64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-arm64 --build=missing -pr:b default -pr:h profiles/macos-arm64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-arm64 --build=missing -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/macos-arm64 --build=missing -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"
 
       # ios builds - only static
-      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm32 --build=missing -pr:b default -pr:h profiles/ios-device-arm32 -o "openssl/*:shared=False"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm64 --build=missing -pr:b default -pr:h profiles/ios-device-arm64 -o "openssl/*:shared=False"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-arm64 --build=missing -pr:b default -pr:h profiles/ios-simulator-arm64 -o "openssl/*:shared=False"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-x64 --build=missing -pr:b default -pr:h profiles/ios-simulator-x64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm32 --build=missing -pr:b default -pr:h profiles/ios-device-arm32 -o "*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm64 --build=missing -pr:b default -pr:h profiles/ios-device-arm64 -o "*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-arm64 --build=missing -pr:b default -pr:h profiles/ios-simulator-arm64 -o "*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-x64 --build=missing -pr:b default -pr:h profiles/ios-simulator-x64 -o "*:shared=False"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -43,16 +43,22 @@ jobs:
       - run: pip install conan
       - run: conan profile detect
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing -pr:b default -pr:h profiles/linux-x64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing -pr:b default -pr:h profiles/linux-x64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"
+        if: always()
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/wasm --build=missing -pr:b default -pr:h profiles/wasm -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/wasm --build=missing -pr:b default -pr:h profiles/wasm -o "*:shared=False"
+        if: always()
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/android-arm64 --build=missing -pr:b default -pr:h profiles/android-arm64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/android-arm64 --build=missing -pr:b default -pr:h profiles/android-arm64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/android-arm64 --build=missing -pr:b default -pr:h profiles/android-arm64 -o "*:shared=True"
+        if: always()
+      - run: conan install packages/openssl3 --output-folder build/openssl3/android-arm64 --build=missing -pr:b default -pr:h profiles/android-arm64 -o "*:shared=False"
+        if: always()
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/android-x64 --build=missing -pr:b default -pr:h profiles/android-x64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/android-x64 --build=missing -pr:b default -pr:h profiles/android-x64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/android-x64 --build=missing -pr:b default -pr:h profiles/android-x64 -o "*:shared=True"
+        if: always()
+      - run: conan install packages/openssl3 --output-folder build/openssl3/android-x64 --build=missing -pr:b default -pr:h profiles/android-x64 -o "*:shared=False"
+        if: always()
 
       - uses: actions/upload-artifact@v3
         with:
@@ -72,11 +78,15 @@ jobs:
       - run: pip install conan
       - run: conan profile detect
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/mingw-x64 --build=missing -pr:b default -pr:h profiles/mingw-x64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/mingw-x64 --build=missing -pr:b default -pr:h profiles/mingw-x64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/mingw-x64 --build=missing -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True"
+        if: always()
+      - run: conan install packages/openssl3 --output-folder build/openssl3/mingw-x64 --build=missing -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"
+        if: always()
 
-      - run: conan install packages/openssl3 --output-folder build/openssl3/windows-x64 --build=missing -pr:b default -pr:h profiles/windows-x64 -o "openssl/*:shared=True"
-      - run: conan install packages/openssl3 --output-folder build/openssl3/windows-x64 --build=missing -pr:b default -pr:h profiles/windows-x64 -o "openssl/*:shared=False"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/windows-x64 --build=missing -pr:b default -pr:h profiles/windows-x64 -o "*:shared=True"
+        if: always()
+      - run: conan install packages/openssl3 --output-folder build/openssl3/windows-x64 --build=missing -pr:b default -pr:h profiles/windows-x64 -o "*:shared=False"
+        if: always()
 
       - uses: actions/upload-artifact@v3
         with:
