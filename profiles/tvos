@@ -1,4 +1,4 @@
-include(default)
+include(apple)
 [settings]
 os=tvOS
 os.version=11.0

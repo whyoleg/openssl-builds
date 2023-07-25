@@ -1,4 +1,4 @@
-include(default)
+include(base)
 [settings]
 os=Windows
 arch=x86_64
