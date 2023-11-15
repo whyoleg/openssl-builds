@@ -34,7 +34,8 @@ jobs:
             build/openssl3/*/include/*
 
   linux:
-    runs-on: ubuntu-latest
+    # not ubuntu-latest because of requiremnt to have g++-8
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
