@@ -4,7 +4,7 @@ on: [ workflow_call, workflow_dispatch ]
 jobs:
 
   macos:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -42,6 +42,12 @@ jobs:
           python-version: 3.x
       - run: pip install conan
       - run: conan profile detect
+
+      - run: sudo apt update
+      - run: sudo apt install g++-8-aarch64-linux-gnu
+
+      - run: conan install packages/openssl3 --output-folder build/openssl3/linux-arm64 --build=missing -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True"
+      - run: conan install packages/openssl3 --output-folder build/openssl3/linux-arm64 --build=missing -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"
 
       - run: conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True"
       - run: conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"
