@@ -1,4 +1,4 @@
 include(base)
 [settings]
 compiler=apple-clang
-compiler.version=14
+compiler.version=15
