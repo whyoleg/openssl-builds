@@ -366,6 +366,7 @@ class OpenSSLConan(ConanFile):
             args.append(" -DHAVE_FORK=0") # fork is not available on tvOS and watchOS
         if self.settings.os == "Android":
             args.append(" -D__ANDROID_API__=%s" % str(self.settings.os.api_level))  # see NOTES.ANDROID
+            args.append(" -mno-outline-atomics")  # fix atomics - may be needed only for arch64
         if self.settings.os == "Emscripten":
             args.append("-D__STDC_NO_ATOMICS__=1")
         if self.settings.os == "Windows":

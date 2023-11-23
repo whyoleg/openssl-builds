@@ -1,4 +1,4 @@
 include(watchos)
 [settings]
-arch=armv7
+arch=armv7k
 os.sdk=watchos
