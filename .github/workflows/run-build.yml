@@ -66,9 +66,13 @@ jobs:
       - run: sudo apt update
       - run: sudo apt install g++-8-aarch64-linux-gnu g++-8
 
+      - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-arm64 -o "*:shared=True"
       - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-arm64 -o "*:shared=False"
+      - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-arm32 -o "*:shared=True"
       - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-arm32 -o "*:shared=False"
+      - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-x64 -o "*:shared=True"
       - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-x64 -o "*:shared=False"
+      - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-x86 -o "*:shared=True"
       - run: conan create packages/openssl3-cc --version=3.1.4 --build=missing -pr:b default -pr:h profiles/android-x86 -o "*:shared=False"
 
       - run: conan install packages/openssl3 --output-folder build/openssl3/linux-arm64 --build=missing -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True"
