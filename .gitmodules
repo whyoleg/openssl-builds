@@ -1,0 +1,3 @@
+[submodule "conan-center-index"]
+	path = conan-center-index
+	url = git@github.com:whyoleg/conan-center-index.git
