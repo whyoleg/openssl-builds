@@ -6,7 +6,7 @@ from conan.tools.files import copy
 
 class Openssl3Conan(ConanFile):
     def requirements(self):
-        self.requires("openssl/3.1.4")
+        self.requires("openssl/" + str(self.version))
 
     def generate(self):
         for dep in [self.dependencies["openssl"], self.dependencies["zlib"]]:
