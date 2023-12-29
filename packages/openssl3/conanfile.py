@@ -5,17 +5,26 @@ from conan.tools.files import copy
 
 
 class Openssl3Conan(ConanFile):
+    options = {
+        "shared": [True, False],
+    }
+
     def requirements(self):
         self.requires("openssl/" + str(self.version))
 
     def generate(self):
-        for dep in [self.dependencies["openssl"], self.dependencies["zlib"]]:
-            includedir = dep.cpp_info.includedirs[0]
-            libdir = dep.cpp_info.libdirs[0]
+        libs = ["libcrypto", "libssl"]
+        dep = self.dependencies["openssl"]
+        includedir = dep.cpp_info.includedirs[0]
+        libdir = dep.cpp_info.libdirs[0]
+
+        # get headers from static build, to be consistent (TBD if it's a good solution)
+        if not self.options.shared:
             copy(self, "*.h", includedir, join(self.build_folder, "include"))
-            copy(self, "*.dll", libdir, join(self.build_folder, "lib"))
-            copy(self, "*.lib", libdir, join(self.build_folder, "lib"))
-            copy(self, "*.a", libdir, join(self.build_folder, "lib"))
-            copy(self, "*.dylib", libdir, join(self.build_folder, "lib"))
-            copy(self, "*.so", libdir, join(self.build_folder, "lib"))
-            copy(self, "*.so.3", libdir, join(self.build_folder, "lib"))
+
+            for lib in libs:
+                copy(self, lib + ".a", libdir, join(self.build_folder, "staticLib"))
+        else:
+            for lib in libs:
+                for ext in ["dll.a", "3.dylib", "dylib", "so.3", "so"]:
+                    copy(self, lib + "." + ext, libdir, join(self.build_folder, "dynamicLib"))
