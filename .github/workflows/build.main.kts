@@ -99,8 +99,12 @@ workflow(
     sourceFile = __FILE__.toPath(),
 ) {
     val version = expr("inputs.version")
-    configurations.forEach { configuration ->
-        job(id = configuration.name, runsOn = configuration.runnerType) {
+    val jobs = configurations.map { configuration ->
+        job(
+            id = configuration.name,
+            name = "${configuration.name}-$version",
+            runsOn = configuration.runnerType
+        ) {
             uses(action = CheckoutV4(submodules = true))
             uses(action = SetupPythonV5(pythonVersion = "3.x"))
             run(command = "pip install conan")
@@ -112,26 +116,42 @@ workflow(
             }
 
             configuration.profiles.forEach { (profile, supportsShared) ->
-                run(command = conanCreateCommand(profile, version, "False"))
-                run(command = conanInstallCommand(profile, version, "False"))
                 if (supportsShared) {
                     run(command = conanCreateCommand(profile, version, "True"))
                     run(command = conanInstallCommand(profile, version, "True"))
                 }
+                run(command = conanCreateCommand(profile, version, "False"))
+                run(command = conanInstallCommand(profile, version, "False"))
             }
 
-            // V4 has different behaviour
-            @Suppress("DEPRECATION")
             uses(
-                action = UploadArtifactV3(
-                    name = "openssl-$version",
-                    ifNoFilesFound = UploadArtifactV3.BehaviorIfNoFilesFound.Error,
+                action = UploadArtifactV4(
+                    name = "openssl-${configuration.name}-$version",
+                    ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
                     path = listOf(
-                        "build/openssl3/*/lib/*",
+                        "build/openssl3/*/dynamicLib/*",
+                        "build/openssl3/*/staticLib/*",
                         "build/openssl3/*/include/*",
                     )
                 )
             )
         }
+    }
+
+    job(id = "aggregate", runsOn = UbuntuLatest, needs = jobs) {
+        uses(
+            action = DownloadArtifactV4(
+                pattern = "openssl-*-$version",
+                mergeMultiple = true,
+                path = "openssl"
+            )
+        )
+        uses(
+            action = UploadArtifactV4(
+                name = "openssl-$version",
+                ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
+                path = listOf("openssl")
+            )
+        )
     }
 }.writeToFile(addConsistencyCheck = false)
