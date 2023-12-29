@@ -3,7 +3,6 @@ include(base)
 os=Android
 os.api_level=21
 compiler=clang
-compiler.libcxx=libc++
 compiler.version=14
 
 [tool_requires]
