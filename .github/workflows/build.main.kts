@@ -96,6 +96,13 @@ workflow(
             )
         )
     ),
+    _customArguments = mapOf(
+        "defaults" to mapOf(
+            "run" to mapOf(
+                "shell" to "bash"
+            )
+        )
+    ),
     sourceFile = __FILE__.toPath(),
 ) {
     val version = expr("inputs.version")
@@ -124,33 +131,58 @@ workflow(
                 run(command = conanInstallCommand(profile, version, "False"))
             }
 
+            listOf(
+                "build/openssl3/*/dynamicLib",
+                "build/openssl3/*/staticLib",
+                "build/openssl3/*/include",
+            ).forEach { path ->
+                run(command = "tar -rvf ${configuration.name}.tar $path")
+            }
+
             uses(
                 action = UploadArtifactV4(
                     name = "openssl-${configuration.name}-$version",
                     ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
-                    path = listOf(
-                        "build/openssl3/*/dynamicLib/*",
-                        "build/openssl3/*/staticLib/*",
-                        "build/openssl3/*/include/*",
-                    )
+                    path = listOf("${configuration.name}.tar")
                 )
             )
         }
     }
 
-    job(id = "aggregate", runsOn = UbuntuLatest, needs = jobs) {
+    job(
+        id = "aggregate",
+        runsOn = UbuntuLatest,
+        needs = jobs
+    ) {
         uses(
             action = DownloadArtifactV4(
                 pattern = "openssl-*-$version",
-                mergeMultiple = true,
-                path = "openssl"
+                mergeMultiple = true
             )
         )
+
+        configurations.forEach {
+            run(command = "tar -xvf ${it.name}.tar")
+        }
+
+        run(
+            command = "tar -czvf ../../openssl-$version.tar.gz *",
+            workingDirectory = "build/openssl3"
+        )
+
+        run(
+            command = "zip --symlinks -r ../../openssl-$version.zip *",
+            workingDirectory = "build/openssl3"
+        )
+
         uses(
             action = UploadArtifactV4(
                 name = "openssl-$version",
                 ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
-                path = listOf("openssl")
+                path = listOf(
+                    "openssl-$version.tar.gz",
+                    "openssl-$version.zip",
+                )
             )
         )
     }
