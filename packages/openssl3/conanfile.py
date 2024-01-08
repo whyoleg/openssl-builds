@@ -13,18 +13,29 @@ class Openssl3Conan(ConanFile):
         self.requires("openssl/" + str(self.version))
 
     def generate(self):
-        libs = ["libcrypto", "libssl"]
         dep = self.dependencies["openssl"]
         includedir = dep.cpp_info.includedirs[0]
         libdir = dep.cpp_info.libdirs[0]
+        bindir = dep.cpp_info.bindirs[0]
 
-        # get headers from static build, to be consistent (TBD if it's a good solution)
-        if not self.options.shared:
-            copy(self, "*.h", includedir, join(self.build_folder, "include"))
+        copy(self, "*.h", includedir, join(self.build_folder, "include"))
 
-            for lib in libs:
-                copy(self, lib + ".a", libdir, join(self.build_folder, "staticLib"))
-        else:
-            for lib in libs:
-                for ext in ["dll.a", "3.dylib", "dylib", "so.3", "so"]:
-                    copy(self, lib + "." + ext, libdir, join(self.build_folder, "dynamicLib"))
+        for libName in ["libcrypto", "libssl"]:
+            for ext in [
+                # mingw dynamic
+                "dll.a",
+                # windows dynamic
+                "lib",
+                # macos dynamic
+                "dylib", "3.dylib",
+                # linux dynamic
+                "so.3", "so",
+                # macos/linux/mingw static
+                "a"
+            ]:
+                copy(self, libName + "." + ext, libdir, join(self.build_folder, "lib"))
+
+        # windows only
+        for binName in ["libcrypto-3-x64", "libssl-3-x64"]:
+            for ext in ["dll"]:
+                copy(self, binName + "." + ext, bindir, join(self.build_folder, "bin"))
