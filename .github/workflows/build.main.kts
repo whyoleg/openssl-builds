@@ -80,12 +80,12 @@ val configurations = listOf(
 
 fun conanCreateCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "create conan-center-index/recipes/openssl/3.x.x --build=missing"
+    "create conan-center-index/recipes/libcurl/all --build=missing"
 )
 
 fun conanInstallCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "install packages/openssl3 --output-folder build/openssl3/$profile"
+    "install packages/libcurl --output-folder build/libcurl/$profile"
 )
 
 fun conanCommand(profile: String, version: String, shared: String, command: String): String = listOf(
@@ -104,7 +104,7 @@ workflow(
         WorkflowDispatch(
             inputs = mapOf(
                 "version" to WorkflowDispatch.Input(
-                    description = "version of OpenSSL 3",
+                    description = "version of libcurl",
                     required = true,
                     type = WorkflowDispatch.Type.String
                 )
@@ -141,12 +141,12 @@ workflow(
 
             configuration.profiles.forEach { (profile, buildKind) ->
                 if (buildKind.buildDynamic) {
-                    run(command = conanCreateCommand(profile, version, "True"))
-                    run(command = conanInstallCommand(profile, version, "True"))
+                    run(command = conanCreateCommand(profile, version, "True"), continueOnError = true)
+                    run(command = conanInstallCommand(profile, version, "True"), continueOnError = true)
                 }
                 if (buildKind.buildStatic) {
-                    run(command = conanCreateCommand(profile, version, "False"))
-                    run(command = conanInstallCommand(profile, version, "False"))
+                    run(command = conanCreateCommand(profile, version, "False"), continueOnError = true)
+                    run(command = conanInstallCommand(profile, version, "False"), continueOnError = true)
                 }
             }
 
@@ -154,15 +154,16 @@ workflow(
                 WindowsRunner -> listOf("lib", "include", "bin")
                 else -> listOf("lib", "include")
             }.forEach { folder ->
-                run(command = "tar -rvf ${configuration.name}.tar build/openssl3/*/$folder")
+                run(command = "tar -rvf ${configuration.name}.tar build/libcurl/*/$folder", continueOnError = true)
             }
 
             uses(
                 action = UploadArtifactV4(
-                    name = "openssl-${configuration.name}-$version",
+                    name = "libcurl-${configuration.name}-$version",
                     ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
                     path = listOf("${configuration.name}.tar")
-                )
+                ),
+                continueOnError = true
             )
         }
     }
@@ -174,7 +175,7 @@ workflow(
     ) {
         uses(
             action = DownloadArtifactV4(
-                pattern = "openssl-*-$version",
+                pattern = "libcurl-*-$version",
                 mergeMultiple = true
             )
         )
@@ -184,22 +185,22 @@ workflow(
         }
 
         run(
-            command = "tar -czvf ../../openssl-$version.tar.gz *",
-            workingDirectory = "build/openssl3"
+            command = "tar -czvf ../../libcurl-$version.tar.gz *",
+            workingDirectory = "build/libcurl"
         )
 
         run(
-            command = "zip --symlinks -r ../../openssl-$version.zip *",
-            workingDirectory = "build/openssl3"
+            command = "zip --symlinks -r ../../libcurl-$version.zip *",
+            workingDirectory = "build/libcurl"
         )
 
         uses(
             action = UploadArtifactV4(
-                name = "openssl-$version",
+                name = "libcurl-$version",
                 ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
                 path = listOf(
-                    "openssl-$version.tar.gz",
-                    "openssl-$version.zip",
+                    "libcurl-$version.tar.gz",
+                    "libcurl-$version.zip",
                 )
             )
         )
