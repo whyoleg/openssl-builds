@@ -27,101 +27,23 @@ jobs:
       run: 'conan profile detect'
     - id: 'step-4'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/tvos-simulator-arm64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=True"'
     - id: 'step-5'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/tvos-simulator-arm64 --version=8.10.1 -pr:b default -pr:h profiles/tvos-simulator-arm64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"'
     - id: 'step-6'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/tvos-simulator-x64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True"'
     - id: 'step-7'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/tvos-simulator-x64 --version=8.10.1 -pr:b default -pr:h profiles/tvos-simulator-x64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"'
     - id: 'step-8'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/tvos-device-arm64 -o "*:shared=False"'
+      run: 'tar -rvf macos.tar build/libcurl/*/lib'
     - id: 'step-9'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/tvos-device-arm64 --version=8.10.1 -pr:b default -pr:h profiles/tvos-device-arm64 -o "*:shared=False"'
-    - id: 'step-10'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/watchos-simulator-arm64 -o "*:shared=False"'
-    - id: 'step-11'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/watchos-simulator-arm64 --version=8.10.1 -pr:b default -pr:h profiles/watchos-simulator-arm64 -o "*:shared=False"'
-    - id: 'step-12'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/watchos-simulator-x64 -o "*:shared=False"'
-    - id: 'step-13'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/watchos-simulator-x64 --version=8.10.1 -pr:b default -pr:h profiles/watchos-simulator-x64 -o "*:shared=False"'
-    - id: 'step-14'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/watchos-device-arm32 -o "*:shared=False"'
-    - id: 'step-15'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/watchos-device-arm32 --version=8.10.1 -pr:b default -pr:h profiles/watchos-device-arm32 -o "*:shared=False"'
-    - id: 'step-16'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/watchos-device-arm64 -o "*:shared=False"'
-    - id: 'step-17'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/watchos-device-arm64 --version=8.10.1 -pr:b default -pr:h profiles/watchos-device-arm64 -o "*:shared=False"'
-    - id: 'step-18'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/watchos-device-arm64_32 -o "*:shared=False"'
-    - id: 'step-19'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/watchos-device-arm64_32 --version=8.10.1 -pr:b default -pr:h profiles/watchos-device-arm64_32 -o "*:shared=False"'
-    - id: 'step-20'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/ios-device-arm64 -o "*:shared=False"'
-    - id: 'step-21'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/ios-device-arm64 --version=8.10.1 -pr:b default -pr:h profiles/ios-device-arm64 -o "*:shared=False"'
-    - id: 'step-22'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/ios-simulator-arm64 -o "*:shared=False"'
-    - id: 'step-23'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/ios-simulator-arm64 --version=8.10.1 -pr:b default -pr:h profiles/ios-simulator-arm64 -o "*:shared=False"'
-    - id: 'step-24'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/ios-simulator-x64 -o "*:shared=False"'
-    - id: 'step-25'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/ios-simulator-x64 --version=8.10.1 -pr:b default -pr:h profiles/ios-simulator-x64 -o "*:shared=False"'
-    - id: 'step-26'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=True"'
-    - id: 'step-27'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=True"'
-    - id: 'step-28'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"'
-    - id: 'step-29'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"'
-    - id: 'step-30'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True"'
-    - id: 'step-31'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True"'
-    - id: 'step-32'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"'
-    - id: 'step-33'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"'
-    - id: 'step-34'
-      continue-on-error: true
-      run: 'tar -rvf macos.tar build/libcurl/*/lib'
-    - id: 'step-35'
-      continue-on-error: true
       run: 'tar -rvf macos.tar build/libcurl/*/include'
-    - id: 'step-36'
+    - id: 'step-10'
       continue-on-error: true
       uses: 'actions/upload-artifact@v4'
       with:
@@ -150,89 +72,23 @@ jobs:
       run: 'sudo apt install g++-8-aarch64-linux-gnu g++-8'
     - id: 'step-6'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-arm64 -o "*:shared=True"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True"'
     - id: 'step-7'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-arm64 --version=8.10.1 -pr:b default -pr:h profiles/android-arm64 -o "*:shared=True"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"'
     - id: 'step-8'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-arm64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True"'
     - id: 'step-9'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-arm64 --version=8.10.1 -pr:b default -pr:h profiles/android-arm64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"'
     - id: 'step-10'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-arm32 -o "*:shared=True"'
+      run: 'tar -rvf linux.tar build/libcurl/*/lib'
     - id: 'step-11'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-arm32 --version=8.10.1 -pr:b default -pr:h profiles/android-arm32 -o "*:shared=True"'
-    - id: 'step-12'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-arm32 -o "*:shared=False"'
-    - id: 'step-13'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-arm32 --version=8.10.1 -pr:b default -pr:h profiles/android-arm32 -o "*:shared=False"'
-    - id: 'step-14'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-x64 -o "*:shared=True"'
-    - id: 'step-15'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-x64 --version=8.10.1 -pr:b default -pr:h profiles/android-x64 -o "*:shared=True"'
-    - id: 'step-16'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-x64 -o "*:shared=False"'
-    - id: 'step-17'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-x64 --version=8.10.1 -pr:b default -pr:h profiles/android-x64 -o "*:shared=False"'
-    - id: 'step-18'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-x86 -o "*:shared=True"'
-    - id: 'step-19'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-x86 --version=8.10.1 -pr:b default -pr:h profiles/android-x86 -o "*:shared=True"'
-    - id: 'step-20'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/android-x86 -o "*:shared=False"'
-    - id: 'step-21'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/android-x86 --version=8.10.1 -pr:b default -pr:h profiles/android-x86 -o "*:shared=False"'
-    - id: 'step-22'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True"'
-    - id: 'step-23'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True"'
-    - id: 'step-24'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"'
-    - id: 'step-25'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"'
-    - id: 'step-26'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True"'
-    - id: 'step-27'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True"'
-    - id: 'step-28'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"'
-    - id: 'step-29'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"'
-    - id: 'step-30'
-      continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/wasm -o "*:shared=False"'
-    - id: 'step-31'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/wasm --version=8.10.1 -pr:b default -pr:h profiles/wasm -o "*:shared=False"'
-    - id: 'step-32'
-      continue-on-error: true
-      run: 'tar -rvf linux.tar build/libcurl/*/lib'
-    - id: 'step-33'
-      continue-on-error: true
       run: 'tar -rvf linux.tar build/libcurl/*/include'
-    - id: 'step-34'
+    - id: 'step-12'
       continue-on-error: true
       uses: 'actions/upload-artifact@v4'
       with:
@@ -257,32 +113,20 @@ jobs:
       run: 'conan profile detect'
     - id: 'step-4'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True"'
     - id: 'step-5'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"'
     - id: 'step-6'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"'
+      run: 'tar -rvf windows.tar build/libcurl/*/lib'
     - id: 'step-7'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"'
+      run: 'tar -rvf windows.tar build/libcurl/*/include'
     - id: 'step-8'
       continue-on-error: true
-      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.10.1 -pr:b default -pr:h profiles/windows-x64 -o "*:shared=True"'
-    - id: 'step-9'
-      continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/windows-x64 --version=8.10.1 -pr:b default -pr:h profiles/windows-x64 -o "*:shared=True"'
-    - id: 'step-10'
-      continue-on-error: true
-      run: 'tar -rvf windows.tar build/libcurl/*/lib'
-    - id: 'step-11'
-      continue-on-error: true
-      run: 'tar -rvf windows.tar build/libcurl/*/include'
-    - id: 'step-12'
-      continue-on-error: true
       run: 'tar -rvf windows.tar build/libcurl/*/bin'
-    - id: 'step-13'
+    - id: 'step-9'
       continue-on-error: true
       uses: 'actions/upload-artifact@v4'
       with:

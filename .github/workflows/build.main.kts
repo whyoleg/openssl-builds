@@ -35,19 +35,19 @@ val configurations = listOf(
         name = "macos",
         runnerType = MacosRunner,
         profiles = listOf(
-            "tvos-simulator-arm64" to BuildKind.Static,
-            "tvos-simulator-x64" to BuildKind.Static,
-            "tvos-device-arm64" to BuildKind.Static,
-
-            "watchos-simulator-arm64" to BuildKind.Static,
-            "watchos-simulator-x64" to BuildKind.Static,
-            "watchos-device-arm32" to BuildKind.Static,
-            "watchos-device-arm64" to BuildKind.Static,
-            "watchos-device-arm64_32" to BuildKind.Static,
-
-            "ios-device-arm64" to BuildKind.Static,
-            "ios-simulator-arm64" to BuildKind.Static,
-            "ios-simulator-x64" to BuildKind.Static,
+//            "tvos-simulator-arm64" to BuildKind.Static,
+//            "tvos-simulator-x64" to BuildKind.Static,
+//            "tvos-device-arm64" to BuildKind.Static,
+//
+//            "watchos-simulator-arm64" to BuildKind.Static,
+//            "watchos-simulator-x64" to BuildKind.Static,
+//            "watchos-device-arm32" to BuildKind.Static,
+//            "watchos-device-arm64" to BuildKind.Static,
+//            "watchos-device-arm64_32" to BuildKind.Static,
+//
+//            "ios-device-arm64" to BuildKind.Static,
+//            "ios-simulator-arm64" to BuildKind.Static,
+//            "ios-simulator-x64" to BuildKind.Static,
 
             "macos-x64" to BuildKind.Both,
             "macos-arm64" to BuildKind.Both,
@@ -57,15 +57,15 @@ val configurations = listOf(
         name = "linux",
         runnerType = LinuxRunner,
         profiles = listOf(
-            "android-arm64" to BuildKind.Both,
-            "android-arm32" to BuildKind.Both,
-            "android-x64" to BuildKind.Both,
-            "android-x86" to BuildKind.Both,
+//            "android-arm64" to BuildKind.Both,
+//            "android-arm32" to BuildKind.Both,
+//            "android-x64" to BuildKind.Both,
+//            "android-x86" to BuildKind.Both,
 
             "linux-x64" to BuildKind.Both,
             "linux-arm64" to BuildKind.Both,
 
-            "wasm" to BuildKind.Static,
+//            "wasm" to BuildKind.Static,
         )
     ),
     Configuration(
@@ -73,7 +73,7 @@ val configurations = listOf(
         runnerType = WindowsRunner,
         profiles = listOf(
             "mingw-x64" to BuildKind.Both,
-            "windows-x64" to BuildKind.Dynamic,
+//            "windows-x64" to BuildKind.Dynamic,
         )
     )
 )
@@ -85,7 +85,7 @@ fun conanCreateCommand(profile: String, version: String, shared: String): String
 
 fun conanInstallCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "install packages/libcurl --output-folder build/libcurl/$profile"
+    "install packages/libcurl --output-folder build/libcurl/$profile --build=missing"
 )
 
 fun conanCommand(profile: String, version: String, shared: String, command: String): String = listOf(
@@ -141,11 +141,11 @@ workflow(
 
             configuration.profiles.forEach { (profile, buildKind) ->
                 if (buildKind.buildDynamic) {
-                    run(command = conanCreateCommand(profile, version, "True"), continueOnError = true)
+//                    run(command = conanCreateCommand(profile, version, "True"), continueOnError = true)
                     run(command = conanInstallCommand(profile, version, "True"), continueOnError = true)
                 }
                 if (buildKind.buildStatic) {
-                    run(command = conanCreateCommand(profile, version, "False"), continueOnError = true)
+//                    run(command = conanCreateCommand(profile, version, "False"), continueOnError = true)
                     run(command = conanInstallCommand(profile, version, "False"), continueOnError = true)
                 }
             }
