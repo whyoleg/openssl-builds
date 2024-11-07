@@ -13,27 +13,27 @@ class LibcurlConan(ConanFile):
         self.requires("libcurl/" + str(self.version))
 
     def generate(self):
-        dep = self.dependencies["libcurl"]
-
-        includedir = dep.cpp_info.includedirs[0]
-        libdir = dep.cpp_info.libdirs[0]
-        bindir = dep.cpp_info.bindirs[0]
-
-        for ext, source, destination in [
-            # headers
-            ("*.h", includedir, "include"),
-            # mingw dynamic
-            ("*.dll.a", libdir, "lib"),
-            # windows dynamic
-            ("*.lib", libdir, "lib"),
-            # macos dynamic
-            ("*.dylib", libdir, "lib"),
-            ("*.*.dylib", libdir, "lib"),
-            # linux dynamic
-            ("*.so", libdir, "lib"),
-            ("*.so.*", libdir, "lib"),
-            # any static
-            ("*.a", libdir, "lib"),
-            # windows only binaries
-            ("*.dll", bindir, "bin")
-        ]: copy(self, ext, source, join(self.build_folder, destination))
+        for _, dep in self.dependencies.host.items():
+            includedir = dep.cpp_info.includedirs
+            libdir = dep.cpp_info.libdirs
+            bindir = dep.cpp_info.bindirs
+            for ext, sources, destination in [
+                # headers
+                ("*.h", includedir, "include"),
+                # mingw dynamic
+                ("*.dll.a", libdir, "lib"),
+                # windows dynamic
+                ("*.lib", libdir, "lib"),
+                # macos dynamic
+                ("*.dylib", libdir, "lib"),
+                ("*.*.dylib", libdir, "lib"),
+                # linux dynamic
+                ("*.so", libdir, "lib"),
+                ("*.so.*", libdir, "lib"),
+                # any static
+                ("*.a", libdir, "lib"),
+                # windows only binaries
+                ("*.dll", bindir, "bin")
+            ]:
+                for source in sources:
+                    copy(self, ext, source, join(self.build_folder, destination))
