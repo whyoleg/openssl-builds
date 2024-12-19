@@ -10,7 +10,7 @@ defaults:
     shell: 'bash'
 jobs:
   macos:
-    name: 'macos-8.10.1'
+    name: 'macos-8.11.1'
     runs-on: 'macos-latest'
     steps:
     - id: 'step-0'
@@ -27,16 +27,16 @@ jobs:
       run: 'conan profile detect'
     - id: 'step-4'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=True"'
+      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.11.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"'
     - id: 'step-5'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-x64 --version=8.11.1 -pr:b default -pr:h profiles/macos-x64 -o "*:shared=False"'
     - id: 'step-6'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True"'
+      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.11.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"'
     - id: 'step-7'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/macos-arm64 --version=8.11.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False"'
     - id: 'step-8'
       continue-on-error: true
       run: 'tar -rvf macos.tar build/libcurl/*/lib'
@@ -47,11 +47,11 @@ jobs:
       continue-on-error: true
       uses: 'actions/upload-artifact@v4'
       with:
-        name: 'libcurl-macos-8.10.1'
+        name: 'libcurl-macos-8.11.1'
         path: 'macos.tar'
         if-no-files-found: 'error'
   linux:
-    name: 'linux-8.10.1'
+    name: 'linux-8.11.1'
     runs-on: 'ubuntu-20.04'
     steps:
     - id: 'step-0'
@@ -72,16 +72,16 @@ jobs:
       run: 'sudo apt install g++-8-aarch64-linux-gnu g++-8'
     - id: 'step-6'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True"'
+      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.11.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"'
     - id: 'step-7'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-x64 --version=8.11.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False"'
     - id: 'step-8'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True"'
+      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.11.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"'
     - id: 'step-9'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/linux-arm64 --version=8.11.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False"'
     - id: 'step-10'
       continue-on-error: true
       run: 'tar -rvf linux.tar build/libcurl/*/lib'
@@ -92,11 +92,11 @@ jobs:
       continue-on-error: true
       uses: 'actions/upload-artifact@v4'
       with:
-        name: 'libcurl-linux-8.10.1'
+        name: 'libcurl-linux-8.11.1'
         path: 'linux.tar'
         if-no-files-found: 'error'
   windows:
-    name: 'windows-8.10.1'
+    name: 'windows-8.11.1'
     runs-on: 'windows-latest'
     steps:
     - id: 'step-0'
@@ -113,10 +113,10 @@ jobs:
       run: 'conan profile detect'
     - id: 'step-4'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True"'
+      run: 'conan create conan-center-index/recipes/libcurl/all --build=missing --version=8.11.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"'
     - id: 'step-5'
       continue-on-error: true
-      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --build=missing --version=8.10.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"'
+      run: 'conan install packages/libcurl --output-folder build/libcurl/mingw-x64 --version=8.11.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False"'
     - id: 'step-6'
       continue-on-error: true
       run: 'tar -rvf windows.tar build/libcurl/*/lib'
@@ -130,7 +130,7 @@ jobs:
       continue-on-error: true
       uses: 'actions/upload-artifact@v4'
       with:
-        name: 'libcurl-windows-8.10.1'
+        name: 'libcurl-windows-8.11.1'
         path: 'windows.tar'
         if-no-files-found: 'error'
   aggregate:
@@ -143,7 +143,7 @@ jobs:
     - id: 'step-0'
       uses: 'actions/download-artifact@v4'
       with:
-        pattern: 'libcurl-*-8.10.1'
+        pattern: 'libcurl-*-8.11.1'
         merge-multiple: 'true'
     - id: 'step-1'
       run: 'tar -xvf macos.tar'
@@ -153,15 +153,15 @@ jobs:
       run: 'tar -xvf windows.tar'
     - id: 'step-4'
       working-directory: 'build/libcurl'
-      run: 'tar -czvf ../../libcurl-8.10.1.tar.gz *'
+      run: 'tar -czvf ../../libcurl-8.11.1.tar.gz *'
     - id: 'step-5'
       working-directory: 'build/libcurl'
-      run: 'zip --symlinks -r ../../libcurl-8.10.1.zip *'
+      run: 'zip --symlinks -r ../../libcurl-8.11.1.zip *'
     - id: 'step-6'
       uses: 'actions/upload-artifact@v4'
       with:
-        name: 'libcurl-8.10.1'
+        name: 'libcurl-8.11.1'
         path: |-
-          libcurl-8.10.1.tar.gz
-          libcurl-8.10.1.zip
+          libcurl-8.11.1.tar.gz
+          libcurl-8.11.1.zip
         if-no-files-found: 'error'

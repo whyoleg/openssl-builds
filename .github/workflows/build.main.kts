@@ -85,7 +85,7 @@ fun conanCreateCommand(profile: String, version: String, shared: String): String
 
 fun conanInstallCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "install packages/libcurl --output-folder build/libcurl/$profile --build=missing"
+    "install packages/libcurl --output-folder build/libcurl/$profile"
 )
 
 fun conanCommand(profile: String, version: String, shared: String, command: String): String = listOf(
@@ -120,7 +120,7 @@ workflow(
     ),
     sourceFile = __FILE__.toPath(),
 ) {
-    val version = "8.10.1"
+    val version = "8.11.1"
 //    val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(
@@ -140,19 +140,19 @@ workflow(
             }
 
             configuration.profiles.forEach { (profile, buildKind) ->
-                if (buildKind.buildDynamic) {
+//                if (buildKind.buildDynamic) {
 //                    run(command = conanCreateCommand(profile, version, "True"), continueOnError = true)
-                    run(command = conanInstallCommand(profile, version, "True"), continueOnError = true)
-                }
-                if (buildKind.buildStatic) {
-//                    run(command = conanCreateCommand(profile, version, "False"), continueOnError = true)
-                    run(command = conanInstallCommand(profile, version, "False"), continueOnError = true)
-                }
+//                    run(command = conanInstallCommand(profile, version, "True"), continueOnError = true)
+//                }
+//                if (buildKind.buildStatic) {
+                run(command = conanCreateCommand(profile, version, "False"), continueOnError = true)
+                run(command = conanInstallCommand(profile, version, "False"), continueOnError = true)
+//                }
             }
 
             when (configuration.runnerType) {
                 WindowsRunner -> listOf("lib", "include", "bin")
-                else -> listOf("lib", "include")
+                else          -> listOf("lib", "include")
             }.forEach { folder ->
                 run(command = "tar -rvf ${configuration.name}.tar build/libcurl/*/$folder", continueOnError = true)
             }
