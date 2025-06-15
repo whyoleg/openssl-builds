@@ -11,7 +11,7 @@ import io.github.typesafegithub.workflows.dsl.*
 import io.github.typesafegithub.workflows.dsl.expressions.*
 import io.github.typesafegithub.workflows.yaml.*
 
-val LinuxRunner = Ubuntu2004
+val LinuxRunner = UbuntuLatest
 val MacosRunner = MacOSLatest
 val WindowsRunner = WindowsLatest
 

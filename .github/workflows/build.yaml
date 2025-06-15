@@ -102,7 +102,7 @@ jobs:
         if-no-files-found: 'error'
   linux:
     name: 'linux-${{ inputs.version }}'
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-latest'
     steps:
     - id: 'step-0'
       uses: 'actions/checkout@v4'
