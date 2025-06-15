@@ -4,8 +4,8 @@ os=Linux
 arch=x86_64
 compiler=gcc
 compiler.libcxx=libstdc++11
-compiler.version=8
+compiler.version=9
 [buildenv]
-CC=/usr/bin/x86_64-linux-gnu-gcc-8
-CXX=/usr/bin/x86_64-linux-gnu-g++-8
+CC=/usr/bin/x86_64-linux-gnu-gcc-9
+CXX=/usr/bin/x86_64-linux-gnu-g++-9
 LD=/usr/bin/x86_64-linux-gnu-ld

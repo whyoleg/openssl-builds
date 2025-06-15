@@ -120,7 +120,7 @@ workflow(
     ),
     sourceFile = __FILE__.toPath(),
 ) {
-    //val version = "3.2.0"
+//    val version = "3.5.0"
     val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(
@@ -136,7 +136,7 @@ workflow(
 
             if (configuration.runnerType == LinuxRunner) {
                 run(command = "sudo apt update")
-                run(command = "sudo apt install g++-8-aarch64-linux-gnu g++-8")
+                run(command = "sudo apt install g++-9-aarch64-linux-gnu g++-9")
             }
 
             configuration.profiles.forEach { (profile, buildKind) ->
