@@ -18,7 +18,8 @@ val WindowsRunner = WindowsLatest
 class Configuration(
     val name: String,
     val runnerType: RunnerType,
-    val profiles: List<Pair<String, BuildKind>>
+    val profiles: List<Pair<String, BuildKind>>,
+    val container: Container? = null
 )
 
 enum class BuildKind(
@@ -62,11 +63,17 @@ val configurations = listOf(
             "android-x64" to BuildKind.Both,
             "android-x86" to BuildKind.Both,
 
-            "linux-x64" to BuildKind.Both,
-            "linux-arm64" to BuildKind.Both,
-
             "wasm" to BuildKind.Static,
         )
+    ),
+    Configuration(
+        name = "linux-docker",
+        runnerType = LinuxRunner,
+        profiles = listOf(
+            "linux-x64" to BuildKind.Both,
+            "linux-arm64" to BuildKind.Both,
+        ),
+        container = Container("ubuntu:20.04")
     ),
     Configuration(
         name = "windows",
@@ -126,33 +133,40 @@ workflow(
         job(
             id = configuration.name,
             name = "${configuration.name}-$version",
-            runsOn = configuration.runnerType
+            runsOn = configuration.runnerType,
+            container = configuration.container
         ) {
-            uses(action = CheckoutV4(submodules = true))
-            uses(action = SetupPythonV5(pythonVersion = "3.x"))
-
-            run(command = "pip install conan")
-            run(command = "conan profile detect")
-
-            if (configuration.runnerType == LinuxRunner) {
-                run(command = "sudo apt update")
-                run(command = "sudo apt install g++-9-aarch64-linux-gnu g++-9")
+            if (configuration.container != null) {
+                // we need to install git first in container so that it will be latest version
+                run(command = "apt update")
+                run(command = "DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt install python3-venv pipx g++-8-aarch64-linux-gnu g++-8 git cmake -y")
+                run(command = "pipx ensurepath")
+                run(command = "pipx install conan")
+            } else {
+                uses(action = SetupPythonV5(pythonVersion = "3.x"))
+                run(command = "pip install conan")
             }
+
+            uses(action = CheckoutV4(submodules = true))
+
+            val prefix = if (configuration.container != null) "export PATH=/github/home/.local/bin:\$PATH && " else ""
+
+            run(command = prefix + "conan profile detect")
 
             configuration.profiles.forEach { (profile, buildKind) ->
                 if (buildKind.buildDynamic) {
-                    run(command = conanCreateCommand(profile, version, "True"))
-                    run(command = conanInstallCommand(profile, version, "True"))
+                    run(command = prefix + conanCreateCommand(profile, version, "True"))
+                    run(command = prefix + conanInstallCommand(profile, version, "True"))
                 }
                 if (buildKind.buildStatic) {
-                    run(command = conanCreateCommand(profile, version, "False"))
-                    run(command = conanInstallCommand(profile, version, "False"))
+                    run(command = prefix + conanCreateCommand(profile, version, "False"))
+                    run(command = prefix + conanInstallCommand(profile, version, "False"))
                 }
             }
 
             when (configuration.runnerType) {
                 WindowsRunner -> listOf("lib", "include", "bin")
-                else -> listOf("lib", "include")
+                else          -> listOf("lib", "include")
             }.forEach { folder ->
                 run(command = "tar -rvf ${configuration.name}.tar build/openssl3/*/$folder")
             }
