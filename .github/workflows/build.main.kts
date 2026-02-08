@@ -129,7 +129,7 @@ workflow(
     ),
     sourceFile = __FILE__.toPath(),
 ) {
-    val version = "3.6.1"
+    val version = "3.6.0"
 //    val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(

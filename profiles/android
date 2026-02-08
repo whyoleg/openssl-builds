@@ -6,4 +6,4 @@ compiler=clang
 compiler.version=14
 
 [tool_requires]
-android-ndk/r26d
+android-ndk/r27c
