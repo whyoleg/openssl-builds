@@ -92,7 +92,7 @@ fun conanCreateCommand(profile: String, version: String, shared: String): String
 
 fun conanInstallCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "install packages/openssl3 --output-folder build/openssl3/$profile"
+    "install packages/openssl3 --output-folder build/openssl3/$profile --build=missing"
 )
 
 fun conanCommand(profile: String, version: String, shared: String, command: String): String = listOf(
@@ -102,21 +102,23 @@ fun conanCommand(profile: String, version: String, shared: String, command: Stri
     "-pr:b default",
     "-pr:h profiles/$profile",
     "-o \"*:shared=$shared\"",
+    "-o \"openssl/*:no_apps=True\"",
+    "-o \"openssl/*:no_zlib=True\""
 ).joinToString(" ")
 
 workflow(
     name = "Build",
     on = listOf(
-//        Push(),
-        WorkflowDispatch(
-            inputs = mapOf(
-                "version" to WorkflowDispatch.Input(
-                    description = "version of OpenSSL 3",
-                    required = true,
-                    type = WorkflowDispatch.Type.String
-                )
-            )
-        )
+        Push(),
+//        WorkflowDispatch(
+//            inputs = mapOf(
+//                "version" to WorkflowDispatch.Input(
+//                    description = "version of OpenSSL 3",
+//                    required = true,
+//                    type = WorkflowDispatch.Type.String
+//                )
+//            )
+//        )
     ),
     _customArguments = mapOf(
         "defaults" to mapOf(
@@ -127,8 +129,8 @@ workflow(
     ),
     sourceFile = __FILE__.toPath(),
 ) {
-//    val version = "3.5.0"
-    val version = expr("inputs.version")
+    val version = "3.6.1"
+//    val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(
             id = configuration.name,
@@ -155,11 +157,11 @@ workflow(
 
             configuration.profiles.forEach { (profile, buildKind) ->
                 if (buildKind.buildDynamic) {
-                    run(command = prefix + conanCreateCommand(profile, version, "True"))
+//                    run(command = prefix + conanCreateCommand(profile, version, "True"))
                     run(command = prefix + conanInstallCommand(profile, version, "True"))
                 }
                 if (buildKind.buildStatic) {
-                    run(command = prefix + conanCreateCommand(profile, version, "False"))
+//                    run(command = prefix + conanCreateCommand(profile, version, "False"))
                     run(command = prefix + conanInstallCommand(profile, version, "False"))
                 }
             }
