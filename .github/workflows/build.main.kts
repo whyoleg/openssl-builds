@@ -85,6 +85,7 @@ val configurations = listOf(
     )
 )
 
+// not used, as now we just use main conan-center as no patches needed
 fun conanCreateCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
     "create conan-center-index/recipes/openssl/3.x.x --build=missing"
@@ -92,7 +93,7 @@ fun conanCreateCommand(profile: String, version: String, shared: String): String
 
 fun conanInstallCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "install packages/openssl3 --output-folder build/openssl3/$profile"
+    "install packages/openssl3 --output-folder build/openssl3/$profile --build=missing"
 )
 
 fun conanCommand(profile: String, version: String, shared: String, command: String): String = listOf(
@@ -102,6 +103,8 @@ fun conanCommand(profile: String, version: String, shared: String, command: Stri
     "-pr:b default",
     "-pr:h profiles/$profile",
     "-o \"*:shared=$shared\"",
+    "-o \"openssl/*:no_apps=True\"",
+    "-o \"openssl/*:no_zlib=True\""
 ).joinToString(" ")
 
 workflow(
@@ -127,7 +130,7 @@ workflow(
     ),
     sourceFile = __FILE__.toPath(),
 ) {
-//    val version = "3.5.0"
+//    val version = "3.6.0"
     val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(
@@ -155,11 +158,11 @@ workflow(
 
             configuration.profiles.forEach { (profile, buildKind) ->
                 if (buildKind.buildDynamic) {
-                    run(command = prefix + conanCreateCommand(profile, version, "True"))
+//                    run(command = prefix + conanCreateCommand(profile, version, "True"))
                     run(command = prefix + conanInstallCommand(profile, version, "True"))
                 }
                 if (buildKind.buildStatic) {
-                    run(command = prefix + conanCreateCommand(profile, version, "False"))
+//                    run(command = prefix + conanCreateCommand(profile, version, "False"))
                     run(command = prefix + conanInstallCommand(profile, version, "False"))
                 }
             }
