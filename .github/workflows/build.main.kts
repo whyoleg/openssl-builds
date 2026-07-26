@@ -37,12 +37,9 @@ val configurations = listOf(
         runnerType = MacosRunner,
         profiles = listOf(
             "tvos-simulator-arm64" to BuildKind.Static,
-            "tvos-simulator-x64" to BuildKind.Static,
             "tvos-device-arm64" to BuildKind.Static,
 
             "watchos-simulator-arm64" to BuildKind.Static,
-            "watchos-simulator-x64" to BuildKind.Static,
-            "watchos-device-arm32" to BuildKind.Static,
             "watchos-device-arm64" to BuildKind.Static,
             "watchos-device-arm64_32" to BuildKind.Static,
 
@@ -50,7 +47,6 @@ val configurations = listOf(
             "ios-simulator-arm64" to BuildKind.Static,
             "ios-simulator-x64" to BuildKind.Static,
 
-            "macos-x64" to BuildKind.Both,
             "macos-arm64" to BuildKind.Both,
         )
     ),
@@ -58,10 +54,11 @@ val configurations = listOf(
         name = "linux",
         runnerType = LinuxRunner,
         profiles = listOf(
-            "android-arm64" to BuildKind.Both,
-            "android-arm32" to BuildKind.Both,
-            "android-x64" to BuildKind.Both,
-            "android-x86" to BuildKind.Both,
+//            skip for now, but overall it could be useful in future
+//            "android-arm64" to BuildKind.Both,
+//            "android-arm32" to BuildKind.Both,
+//            "android-x64" to BuildKind.Both,
+//            "android-x86" to BuildKind.Both,
 
             "wasm" to BuildKind.Static,
         )
@@ -80,7 +77,8 @@ val configurations = listOf(
         runnerType = WindowsRunner,
         profiles = listOf(
             "mingw-x64" to BuildKind.Both,
-            "windows-x64" to BuildKind.Dynamic,
+//            skip for now, but overall it could be useful in future
+//            "windows-x64" to BuildKind.Dynamic,
         )
     )
 )
