@@ -1,6 +1,17 @@
-#!/usr/bin/env kotlin
+#!/usr/bin/env kotlinr
 
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.8.0")
+@file:Repository("https://repo.maven.apache.org/maven2/")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:4.0.0")
+
+// repository for actions
+@file:Repository("https://bindings.krzeminski.it")
+@file:DependsOn(
+    "actions:checkout:v7",
+    "actions:setup-python:v7",
+    "actions:upload-artifact:v7",
+    "actions:download-artifact:v8"
+)
+
 @file:Suppress("PropertyName")
 
 import io.github.typesafegithub.workflows.actions.actions.*
@@ -9,10 +20,9 @@ import io.github.typesafegithub.workflows.domain.RunnerType.*
 import io.github.typesafegithub.workflows.domain.triggers.*
 import io.github.typesafegithub.workflows.dsl.*
 import io.github.typesafegithub.workflows.dsl.expressions.*
-import io.github.typesafegithub.workflows.yaml.*
 
 val LinuxRunner = UbuntuLatest
-val MacosRunner = MacOSLatest
+val MacosRunner = MacosLatest
 val WindowsRunner = WindowsLatest
 
 class Configuration(
@@ -114,7 +124,7 @@ workflow(
                 "version" to WorkflowDispatch.Input(
                     description = "version of OpenSSL 3",
                     required = true,
-                    type = WorkflowDispatch.Type.String
+                    type = WorkflowDispatch.Input.Type.String
                 )
             )
         )
@@ -126,7 +136,7 @@ workflow(
             )
         )
     ),
-    sourceFile = __FILE__.toPath(),
+    sourceFile = __FILE__
 ) {
 //    val version = "3.6.0"
     val version = expr("inputs.version")
@@ -144,11 +154,11 @@ workflow(
                 run(command = "pipx ensurepath")
                 run(command = "pipx install conan")
             } else {
-                uses(action = SetupPythonV5(pythonVersion = "3.x"))
+                uses(action = SetupPython(pythonVersion = "3.x"))
                 run(command = "pip install conan")
             }
 
-            uses(action = CheckoutV4(submodules = true))
+            uses(action = Checkout(submodules = true))
 
             val prefix = if (configuration.container != null) "export PATH=/github/home/.local/bin:\$PATH && " else ""
 
@@ -173,9 +183,9 @@ workflow(
             }
 
             uses(
-                action = UploadArtifactV4(
+                action = UploadArtifact(
                     name = "openssl-${configuration.name}-$version",
-                    ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
+                    ifNoFilesFound = UploadArtifact.BehaviorIfNoFilesFound.Error,
                     path = listOf("${configuration.name}.tar")
                 )
             )
@@ -188,7 +198,7 @@ workflow(
         needs = jobs
     ) {
         uses(
-            action = DownloadArtifactV4(
+            action = DownloadArtifact(
                 pattern = "openssl-*-$version",
                 mergeMultiple = true
             )
@@ -209,9 +219,9 @@ workflow(
         )
 
         uses(
-            action = UploadArtifactV4(
+            action = UploadArtifact(
                 name = "openssl-$version",
-                ifNoFilesFound = UploadArtifactV4.BehaviorIfNoFilesFound.Error,
+                ifNoFilesFound = UploadArtifact.BehaviorIfNoFilesFound.Error,
                 path = listOf(
                     "openssl-$version.tar.gz",
                     "openssl-$version.zip",
@@ -219,4 +229,4 @@ workflow(
             )
         )
     }
-}.writeToFile(addConsistencyCheck = false)
+}
