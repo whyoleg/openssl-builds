@@ -118,16 +118,16 @@ fun conanCommand(profile: String, version: String, shared: String, command: Stri
 workflow(
     name = "Build",
     on = listOf(
-//        Push(),
-        WorkflowDispatch(
-            inputs = mapOf(
-                "version" to WorkflowDispatch.Input(
-                    description = "version of OpenSSL 3",
-                    required = true,
-                    type = WorkflowDispatch.Input.Type.String
-                )
-            )
-        )
+        Push(),
+//        WorkflowDispatch(
+//            inputs = mapOf(
+//                "version" to WorkflowDispatch.Input(
+//                    description = "version of OpenSSL 3",
+//                    required = true,
+//                    type = WorkflowDispatch.Input.Type.String
+//                )
+//            )
+//        )
     ),
     _customArguments = mapOf(
         "defaults" to mapOf(
@@ -138,8 +138,8 @@ workflow(
     ),
     sourceFile = __FILE__
 ) {
-//    val version = "3.6.0"
-    val version = expr("inputs.version")
+    val version = "3.6.3"
+//    val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(
             id = configuration.name,
