@@ -96,12 +96,12 @@ val configurations = listOf(
 // not used, as now we just use main conan-center as no patches needed
 fun conanCreateCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "create conan-center-index/recipes/openssl/3.x.x --build=missing"
+    "create conan-center-index/recipes/openssl/4.x.x --build=missing"
 )
 
 fun conanInstallCommand(profile: String, version: String, shared: String): String = conanCommand(
     profile, version, shared,
-    "install packages/openssl3 --output-folder build/openssl3/$profile --build=missing"
+    "install packages/openssl4 --output-folder build/openssl4/$profile --build=missing"
 )
 
 fun conanCommand(profile: String, version: String, shared: String, command: String): String = listOf(
@@ -111,8 +111,7 @@ fun conanCommand(profile: String, version: String, shared: String, command: Stri
     "-pr:b default",
     "-pr:h profiles/$profile",
     "-o \"*:shared=$shared\"",
-    "-o \"openssl/*:no_apps=True\"",
-    "-o \"openssl/*:no_zlib=True\""
+    "-o \"openssl/*:extra_build_opts=no-apps,no-zlib\""
 ).joinToString(" ")
 
 workflow(
@@ -122,7 +121,7 @@ workflow(
 //        WorkflowDispatch(
 //            inputs = mapOf(
 //                "version" to WorkflowDispatch.Input(
-//                    description = "version of OpenSSL 3",
+//                    description = "version of OpenSSL 4",
 //                    required = true,
 //                    type = WorkflowDispatch.Input.Type.String
 //                )
@@ -138,7 +137,7 @@ workflow(
     ),
     sourceFile = __FILE__
 ) {
-    val version = "3.6.3"
+    val version = "4.0.1"
 //    val version = expr("inputs.version")
     val jobs = configurations.map { configuration ->
         job(
@@ -167,11 +166,11 @@ workflow(
             configuration.profiles.forEach { (profile, buildKind) ->
                 if (buildKind.buildDynamic) {
 //                    run(command = prefix + conanCreateCommand(profile, version, "True"))
-                    run(command = prefix + conanInstallCommand(profile, version, "True"))
+                    run(command = prefix + conanInstallCommand(profile, version, "True"), continueOnError = true)
                 }
                 if (buildKind.buildStatic) {
 //                    run(command = prefix + conanCreateCommand(profile, version, "False"))
-                    run(command = prefix + conanInstallCommand(profile, version, "False"))
+                    run(command = prefix + conanInstallCommand(profile, version, "False"), continueOnError = true)
                 }
             }
 
@@ -179,7 +178,7 @@ workflow(
                 WindowsRunner -> listOf("lib", "include", "bin")
                 else          -> listOf("lib", "include")
             }.forEach { folder ->
-                run(command = "tar -rvf ${configuration.name}.tar build/openssl3/*/$folder")
+                run(command = "tar -rvf ${configuration.name}.tar build/openssl4/*/$folder")
             }
 
             uses(
@@ -210,12 +209,12 @@ workflow(
 
         run(
             command = "tar -czvf ../../openssl-$version.tar.gz *",
-            workingDirectory = "build/openssl3"
+            workingDirectory = "build/openssl4"
         )
 
         run(
             command = "zip --symlinks -r ../../openssl-$version.zip *",
-            workingDirectory = "build/openssl3"
+            workingDirectory = "build/openssl4"
         )
 
         uses(

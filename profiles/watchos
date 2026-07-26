@@ -2,3 +2,5 @@ include(apple)
 [settings]
 os=watchOS
 os.version=7.0
+[conf]
+user.openssl:target=iphoneos-cross

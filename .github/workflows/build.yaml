@@ -23,7 +23,7 @@ jobs:
       name: 'Consistency check'
       run: 'git diff --exit-code ''.github/workflows/build.yaml'''
   macos:
-    name: 'macos-3.6.3'
+    name: 'macos-4.0.1'
     runs-on: 'macos-latest'
     needs:
     - 'check_yaml_consistency'
@@ -41,37 +41,47 @@ jobs:
     - id: 'step-3'
       run: 'conan profile detect'
     - id: 'step-4'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/tvos-simulator-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/tvos-simulator-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/tvos-simulator-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/tvos-simulator-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-5'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/tvos-device-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/tvos-device-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/tvos-device-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/tvos-device-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-6'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/watchos-simulator-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/watchos-simulator-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/watchos-simulator-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/watchos-simulator-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-7'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/watchos-device-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/watchos-device-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/watchos-device-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/watchos-device-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-8'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/watchos-device-arm64_32 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/watchos-device-arm64_32 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/watchos-device-arm64_32 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/watchos-device-arm64_32 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-9'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/ios-device-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/ios-device-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/ios-device-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/ios-device-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-10'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/ios-simulator-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/ios-simulator-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/ios-simulator-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-11'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/ios-simulator-x64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/ios-simulator-x64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/ios-simulator-x64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/ios-simulator-x64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-12'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/macos-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/macos-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=True" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-13'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/macos-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/macos-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/macos-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-14'
-      run: 'tar -rvf macos.tar build/openssl3/*/lib'
+      run: 'tar -rvf macos.tar build/openssl4/*/lib'
     - id: 'step-15'
-      run: 'tar -rvf macos.tar build/openssl3/*/include'
+      run: 'tar -rvf macos.tar build/openssl4/*/include'
     - id: 'step-16'
       uses: 'actions/upload-artifact@v7'
       with:
-        name: 'openssl-macos-3.6.3'
+        name: 'openssl-macos-4.0.1'
         path: 'macos.tar'
         if-no-files-found: 'error'
   linux:
-    name: 'linux-3.6.3'
+    name: 'linux-4.0.1'
     runs-on: 'ubuntu-latest'
     needs:
     - 'check_yaml_consistency'
@@ -89,19 +99,20 @@ jobs:
     - id: 'step-3'
       run: 'conan profile detect'
     - id: 'step-4'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/wasm --build=missing --version=3.6.3 -pr:b default -pr:h profiles/wasm -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/wasm --build=missing --version=4.0.1 -pr:b default -pr:h profiles/wasm -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-5'
-      run: 'tar -rvf linux.tar build/openssl3/*/lib'
+      run: 'tar -rvf linux.tar build/openssl4/*/lib'
     - id: 'step-6'
-      run: 'tar -rvf linux.tar build/openssl3/*/include'
+      run: 'tar -rvf linux.tar build/openssl4/*/include'
     - id: 'step-7'
       uses: 'actions/upload-artifact@v7'
       with:
-        name: 'openssl-linux-3.6.3'
+        name: 'openssl-linux-4.0.1'
         path: 'linux.tar'
         if-no-files-found: 'error'
   linux-docker:
-    name: 'linux-docker-3.6.3'
+    name: 'linux-docker-4.0.1'
     runs-on: 'ubuntu-latest'
     needs:
     - 'check_yaml_consistency'
@@ -123,25 +134,29 @@ jobs:
     - id: 'step-5'
       run: 'export PATH=/github/home/.local/bin:$PATH && conan profile detect'
     - id: 'step-6'
-      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl4 --output-folder build/openssl4/linux-x64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=True" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-7'
-      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl3 --output-folder build/openssl3/linux-x64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl4 --output-folder build/openssl4/linux-x64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/linux-x64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-8'
-      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl3 --output-folder build/openssl3/linux-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl4 --output-folder build/openssl4/linux-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=True" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-9'
-      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl3 --output-folder build/openssl3/linux-arm64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'export PATH=/github/home/.local/bin:$PATH && conan install packages/openssl4 --output-folder build/openssl4/linux-arm64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/linux-arm64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-10'
-      run: 'tar -rvf linux-docker.tar build/openssl3/*/lib'
+      run: 'tar -rvf linux-docker.tar build/openssl4/*/lib'
     - id: 'step-11'
-      run: 'tar -rvf linux-docker.tar build/openssl3/*/include'
+      run: 'tar -rvf linux-docker.tar build/openssl4/*/include'
     - id: 'step-12'
       uses: 'actions/upload-artifact@v7'
       with:
-        name: 'openssl-linux-docker-3.6.3'
+        name: 'openssl-linux-docker-4.0.1'
         path: 'linux-docker.tar'
         if-no-files-found: 'error'
   windows:
-    name: 'windows-3.6.3'
+    name: 'windows-4.0.1'
     runs-on: 'windows-latest'
     needs:
     - 'check_yaml_consistency'
@@ -159,19 +174,21 @@ jobs:
     - id: 'step-3'
       run: 'conan profile detect'
     - id: 'step-4'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/mingw-x64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/mingw-x64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=True" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-5'
-      run: 'conan install packages/openssl3 --output-folder build/openssl3/mingw-x64 --build=missing --version=3.6.3 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False" -o "openssl/*:no_apps=True" -o "openssl/*:no_zlib=True"'
+      continue-on-error: true
+      run: 'conan install packages/openssl4 --output-folder build/openssl4/mingw-x64 --build=missing --version=4.0.1 -pr:b default -pr:h profiles/mingw-x64 -o "*:shared=False" -o "openssl/*:extra_build_opts=no-apps,no-zlib"'
     - id: 'step-6'
-      run: 'tar -rvf windows.tar build/openssl3/*/lib'
+      run: 'tar -rvf windows.tar build/openssl4/*/lib'
     - id: 'step-7'
-      run: 'tar -rvf windows.tar build/openssl3/*/include'
+      run: 'tar -rvf windows.tar build/openssl4/*/include'
     - id: 'step-8'
-      run: 'tar -rvf windows.tar build/openssl3/*/bin'
+      run: 'tar -rvf windows.tar build/openssl4/*/bin'
     - id: 'step-9'
       uses: 'actions/upload-artifact@v7'
       with:
-        name: 'openssl-windows-3.6.3'
+        name: 'openssl-windows-4.0.1'
         path: 'windows.tar'
         if-no-files-found: 'error'
   aggregate:
@@ -186,7 +203,7 @@ jobs:
     - id: 'step-0'
       uses: 'actions/download-artifact@v8'
       with:
-        pattern: 'openssl-*-3.6.3'
+        pattern: 'openssl-*-4.0.1'
         merge-multiple: 'true'
     - id: 'step-1'
       run: 'tar -xvf macos.tar'
@@ -197,16 +214,16 @@ jobs:
     - id: 'step-4'
       run: 'tar -xvf windows.tar'
     - id: 'step-5'
-      working-directory: 'build/openssl3'
-      run: 'tar -czvf ../../openssl-3.6.3.tar.gz *'
+      working-directory: 'build/openssl4'
+      run: 'tar -czvf ../../openssl-4.0.1.tar.gz *'
     - id: 'step-6'
-      working-directory: 'build/openssl3'
-      run: 'zip --symlinks -r ../../openssl-3.6.3.zip *'
+      working-directory: 'build/openssl4'
+      run: 'zip --symlinks -r ../../openssl-4.0.1.zip *'
     - id: 'step-7'
       uses: 'actions/upload-artifact@v7'
       with:
-        name: 'openssl-3.6.3'
+        name: 'openssl-4.0.1'
         path: |-
-          openssl-3.6.3.tar.gz
-          openssl-3.6.3.zip
+          openssl-4.0.1.tar.gz
+          openssl-4.0.1.zip
         if-no-files-found: 'error'
